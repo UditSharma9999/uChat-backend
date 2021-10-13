@@ -10,6 +10,7 @@ module.exports = {
 
             // let id1 = MyEmail + "_" + OtherUserEmail;
             // let id2 = OtherUserEmail + "_" + MyEmail;
+            console.log("uid",uid);
             let find = await Chat.find({ "user.uid": uid });
 
 
@@ -34,6 +35,7 @@ module.exports = {
                 
                 // io.emit("chats", { arr });
                 let arr = RenderArr.reverse();
+                console.log("arr ==>" , arr);
                 io.to(socket.id).emit("messages", { arr  });
             }
         })

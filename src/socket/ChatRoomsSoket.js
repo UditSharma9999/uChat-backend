@@ -8,11 +8,10 @@ module.exports = {
 
             if (MyEmail.length) {
 
-                let findEmail = await Chat.find({ "user.myEmail": `${MyEmail}`.trim() });
-                let _findEmail = await Chat.find({ "user.OtherEmail": `${MyEmail}`.trim() });
+                let findEmail = await Chat.find({ "user._id": `${MyEmail}`.trim() });
+                let _findEmail = await Chat.find({ "user.OtherUserEmail": `${MyEmail}`.trim() });
                 // console.log('findEmail', findEmail);
                 // console.log("_findEmail", _findEmail);
-                // OtherEmail
 
                 let EmailArray = []
 
@@ -36,7 +35,7 @@ module.exports = {
                     // console.log("ARR", Arr)
 
                     for (let i = 0; i < Arr.length; i++) {
-                        let Str = `${Arr[i].user._id}`
+                        let Str = `${Arr[i].user.uid}`
                         // console.log(Str);
 
                         if (MyEmail != Str.split("_")[0]) {
@@ -45,8 +44,8 @@ module.exports = {
                         if (MyEmail != Str.split("_")[1]) {
                             EmailArray.push(Str.split("_")[1])
                         }
+                        // console.log("EmailArray", EmailArray);
                     }
-                    // console.log("EmailArray", EmailArray);
                 }
 
                 const filteredArr = EmailArray.reduce((acc, current) => {
@@ -58,12 +57,14 @@ module.exports = {
                     }
                 }, []);
 
+                // console.log(EmailArray)
+
                 var filteredEmailArray = filteredArr.filter(function (x) {
                     return x !== undefined;
                 });
                 // console.log('filteredEmailArray', filteredEmailArray);
 
-                let arr = []
+                let array = []
 
                 for (let i = 0; i < filteredEmailArray.length; i++) {
 
@@ -71,15 +72,17 @@ module.exports = {
                     // console.log('findData', findData)
 
                     if (findData[0] != undefined) {
-                        arr.push(findData[0])
+                        array.push(findData[0])
                     }
                 }
 
-                if (arr.length != 0 || arr.length > 0) {
+                if (array.length != 0 || array.length > 0) {
                     // console.log("undef", arr);
                     // console.log("Emit messages");
                     // socket.broadcast.to(MyEmail).emit( "users", { arr });
                     // console.log(socket.id)
+                    // console.log("chatroom arr", arr);
+                    let arr = array.reverse();
                     io.to(socket.id).emit("users", { arr })
                     // io.emit("users", { arr });
                 }

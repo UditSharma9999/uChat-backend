@@ -1,2 +1,3 @@
 # uChat-backend
-This project is build on express technology for back end as minor project for AIT (front end)
+
+This is a project which handle the backend of our Chat app (https://github.com/UditSharma9999/uChat-frontend)
